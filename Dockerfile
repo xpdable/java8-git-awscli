@@ -2,17 +2,17 @@ FROM ubuntu:16.04
 
 # Install AWS staff
 RUN apt-get update \
-	&& apt-get install -y python-pip unzip curl jq \
+	&& apt-get install -y python-pip unzip curl jq curl-devel expat-devel gettext-devel  openssl-devel zlib-devel git\
 	&& pip install awscli \
-#	&& rm -rf /var/lib/apt/lists/* \
+	&& rm -rf /var/lib/apt/lists/* \
 	&& mkdir -p /root/.aws
 
 # Install Git
-RUN apt-get install -y curl-devel expat-devel gettext-devel  openssl-devel zlib-devel
-RUN apt-get install -y git
+#RUN apt-get install -y curl-devel expat-devel gettext-devel  openssl-devel zlib-devel
+#RUN apt-get install -y git
 
 #Clean up
-RUN rm -rf /var/lib/apt/lists/* \
+#RUN rm -rf /var/lib/apt/lists/* \
 
 # Install Java.
 RUN \
