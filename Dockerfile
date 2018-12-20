@@ -24,7 +24,12 @@ RUN apk --update add git openssh && \
 
 #install python and aws cli
 RUN apk add --update python python-dev py-pip
+#install aws cli
 RUN pip install awscli
+#install boto3 (python AWS SDK)
+RUN pip install boto3
+
+WORKDIR /data
 
 CMD ["bash"]
 
