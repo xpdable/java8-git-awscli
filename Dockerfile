@@ -8,9 +8,8 @@ RUN apt-get update \
 	&& mkdir -p /root/.aws
 
 # Install Git
-RUN apt-get install -y  curl-devel expat-devel gettext-devel \
-                    openssl-devel zlib-devel \
-    && apt-get install -y  git
+RUN apt-get install -y curl-devel expat-devel gettext-devel  openssl-devel zlib-devel
+RUN apt-get install -y git
 
 
 # Install Java.
