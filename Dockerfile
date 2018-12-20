@@ -29,6 +29,8 @@ RUN pip install awscli
 #install boto3 (python AWS SDK)
 RUN pip install boto3
 
+RUN mkdir -p /root/.aws 
+
 WORKDIR /data
 
 CMD ["bash"]
