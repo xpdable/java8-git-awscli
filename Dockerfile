@@ -1,38 +1,55 @@
-FROM ubuntu:16.04
+FROM openjdk:8-jdk-alpine
 
-# Install AWS staff
-RUN apt-get update \
-	&& apt-get install -y python-pip unzip curl jq \
-	&& pip install awscli \
-#	&& rm -rf /var/lib/apt/lists/* \
-	&& mkdir -p /root/.aws
+RUN apk add --update ca-certificates && rm -rf /var/cache/apk/* && \
+  find /usr/share/ca-certificates/mozilla/ -name "*.crt" -exec keytool -import -trustcacerts \
+  -keystore /usr/lib/jvm/java-1.8-openjdk/jre/lib/security/cacerts -storepass changeit -noprompt \
+  -file {} -alias {} \; && \
+  keytool -list -keystore /usr/lib/jvm/java-1.8-openjdk/jre/lib/security/cacerts --storepass changeit
 
-# Install Git
-RUN apt-get install -y apt-transport-https curl-devel expat-devel gettext-devel  openssl-devel zlib-devel
-RUN apt-get install -y apt-transport-https git
+#ENV MAVEN_VERSION 3.5.2
+#ENV MAVEN_HOME /usr/lib/mvn
+#ENV PATH $MAVEN_HOME/bin:$PATH
+ENV PYTHON_VERSION 2.7.14-r2
+ENV PY_PIP_VERSION 9.0.1-r1
+#ENV SUPERVISOR_VERSION 3.3.1
 
-#Clean up
-RUN rm -rf /var/lib/apt/lists/* \
+#install Maven
+#RUN wget http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz && \
+#  tar -zxvf apache-maven-$MAVEN_VERSION-bin.tar.gz && \
+#  rm apache-maven-$MAVEN_VERSION-bin.tar.gz && \
+#  mv apache-maven-$MAVEN_VERSION /usr/lib/mvn
 
-# Install Java.
-RUN \
-	echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-	apt-get update && \
-	apt-get install -y software-properties-common && \
-	add-apt-repository -y ppa:webupd8team/java && \
-	apt-get update && \
-	apt-get install -y oracle-java8-installer && \
-	rm -rf /var/lib/apt/lists/* && \
-	rm -rf /var/cache/oracle-jdk8-installer
+#install flyway
+#WORKDIR /flyway
+#ENV FLYWAY_VERSION 5.0.7
+#RUN apk --no-cache add openssl \
+#  && wget https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/${FLYWAY_VERSION}/flyway-commandline-${FLYWAY_VERSION}.tar.gz \
+#  && tar -xzf flyway-commandline-${FLYWAY_VERSION}.tar.gz \
+#  && mv flyway-${FLYWAY_VERSION}/* . \
+#  && rm flyway-commandline-${FLYWAY_VERSION}.tar.gz \
+#  && sed -i 's/bash/sh/' /flyway/flyway \
+#  && ln -s /flyway/flyway /usr/local/bin/flyway
 
+#install git
+RUN apk --update add git openssh && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm /var/cache/apk/*
 
-# Define working directory.
-WORKDIR /data
+#RUN mkdir -p /usr/src/app
+#WORKDIR /usr/src/app
+#WORKDIR /WebServiceTest/WebService.Test
 
-# Define commonly used JAVA_HOME variable
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
-ENV LANG C.UTF-8
+#install python and aws cli
+RUN apk update && apk add -u python=$PYTHON_VERSION py-pip=$PY_PIP_VERSION
+#RUN pip install supervisor==$SUPERVISOR_VERSION
+RUN pip install awscli
 
+#COPY ./supervisord.conf /
+#ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf 
+
+#entry
+#ENTRYPOINT ["supervisord"]
+
+#ENTRYPOINT ["/entry-point.sh"]
 CMD ["bash"]
-
 
