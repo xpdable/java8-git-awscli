@@ -12,6 +12,7 @@ RUN apk add --update ca-certificates && rm -rf /var/cache/apk/* && \
 
 #install bash
 RUN apk add bash
+SHELL ["/bin/bash", "-c"]
 
 #install Maven
 #RUN wget http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz && \
@@ -36,5 +37,5 @@ RUN mkdir -p /root/.aws
 
 WORKDIR /data
 
-CMD ["bash"]
+CMD ["/bin/bash"]
 
