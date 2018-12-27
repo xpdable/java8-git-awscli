@@ -10,6 +10,9 @@ RUN apk add --update ca-certificates && rm -rf /var/cache/apk/* && \
 #ENV MAVEN_HOME /usr/lib/mvn
 #ENV PATH $MAVEN_HOME/bin:$PATH
 
+#install bash
+RUN apk add bash
+
 #install Maven
 #RUN wget http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz && \
 #  tar -zxvf apache-maven-$MAVEN_VERSION-bin.tar.gz && \
