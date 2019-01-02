@@ -7,8 +7,7 @@ ENV MAVEN_VERSION=3.6.0
 RUN yum -y update && \
     yum -y install wget && \
     yum install -y tar.x86_64 && \
-    yum install -y make &&\
-    yum clean all
+    yum install -y make
 
 #Get Git
 RUN yum install -y git
@@ -21,6 +20,7 @@ RUN rm apache-maven-$MAVEN_VERSION-bin.tar.gz
 
 #get py3
 RUN yum install -y gcc openssl-devel bzip2-devel
+RUN yum install -y glibc glibc-common gd gd-devel
 RUN cd /usr/src
 RUN wget https://www.python.org/ftp/python/3.6.6/Python-3.6.6.tgz
 RUN tar xzf Python-3.6.6.tgz
