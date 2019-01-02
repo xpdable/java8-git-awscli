@@ -4,9 +4,10 @@ FROM amazonlinux:latest
 ENV MAVEN_VERSION=3.6.0
 
 #update
-RUN     yum -y update && \
+RUN yum -y update && \
     yum -y install wget && \
     yum install -y tar.x86_64 && \
+    yum install -y make &&\
     yum clean all
 
 #Get Git
