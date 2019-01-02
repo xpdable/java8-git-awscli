@@ -1,8 +1,5 @@
 FROM amazonlinux:latest
 
-#Versioning
-ENV MAVEN_VERSION=3.6.0
-
 #update
 RUN yum -y update && \
     yum install -y tar.x86_64 && \
@@ -24,15 +21,11 @@ RUN amazon-linux-extras install python3 && \
 RUN pip3 install awscli
 
 #Get Maven
-RUN mkdir /opt/apache-maven-$MAVEN_VERSION
-RUN wget "http://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz"
-RUN tar xvf apache-maven-$MAVEN_VERSION-bin.tar.gz -C /opt/apache-maven-$MAVEN_VERSION
-RUN rm apache-maven-$MAVEN_VERSION-bin.tar.gz
+#Skip for now as Maven usually work with full JDK
+#RUN mkdir /opt/apache-maven-$MAVEN_VERSION
+#RUN wget "http://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz"
+#RUN tar xvf apache-maven-$MAVEN_VERSION-bin.tar.gz -C /opt/apache-maven-$MAVEN_VERSION
+#RUN rm apache-maven-$MAVEN_VERSION-bin.tar.gz
 
-#get jdk8 for jenkins
+#get jre for jenkins
 RUN yum install java-1.8.0 -y
-RUN /usr/sbin/alternatives --set java /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java
-RUN /usr/sbin/alternatives --set javac /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/javac
-
-
-
