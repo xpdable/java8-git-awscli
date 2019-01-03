@@ -29,3 +29,6 @@ RUN pip3 install awscli
 
 #get jre for jenkins
 RUN yum install java-1.8.0 -y
+
+# Install Docker from Docker Inc. repositories.
+RUN curl -sSL https://get.docker.com/ | sh
