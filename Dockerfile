@@ -29,3 +29,6 @@ RUN pip3 install awscli
 
 #get jre for jenkins
 RUN yum install java-1.8.0 -y
+
+#install yq
+RUN curl https://github.com/mikefarah/yq/releases/download/2.3.0/yq_linux_amd64 -L -o yq
